@@ -1,0 +1,28 @@
+.nav {
+	grid-area: n;
+	background-color: brown;
+	padding: 20px;
+}
+
+a {
+	text-decoration: none;
+	color: #fff;
+}
+
+.activeLink {
+	color: gold;
+}
+
+.item {
+	color: #fff;
+}
+
+.itemOther {
+	color: #fff;
+	margin-top: 70px;
+	font-size: 32px;
+}
+
+.active {
+	font-weight: 800;
+}
