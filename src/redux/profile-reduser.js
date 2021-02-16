@@ -18,19 +18,32 @@ let initialState = {
 };
 
 const profileReduser = (state = initialState, action) => {
+
+	let stateCopy;
+
   switch (action.type) {
-    case ADD_POST:
+    case ADD_POST: 
       let newPost = {
         id: state.posts.length + 1,
         message: state.postChange.postValue,
         likesCount: "30",
       };
-      state.posts.push(newPost);
-      state.postChange.postValue = "";
-      return state;
-    case ON_POST_CHANGE:
-      state.postChange.postValue = action.value;
-      return state;
+		  stateCopy = {
+			  ...state,
+			  posts: [...state.posts, newPost],
+			  postChange: { ...state.postChange },
+		  };
+      stateCopy.postChange.postValue = "";
+      return stateCopy;
+    
+    case ON_POST_CHANGE: 
+      stateCopy = {
+			...state,
+			postChange: { ...state.postChange },
+		};
+      stateCopy.postChange.postValue = action.value;
+      return stateCopy;
+    
     default:
       return state;
   }

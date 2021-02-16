@@ -1,0 +1,19 @@
+.all__wrap {
+	width: 600px;
+}
+.all__wrap,
+.min__wrap {
+	display: flex;
+	justify-content: space-between;
+}
+
+.wrap {
+	border: 2px solid #000;
+	border-radius: 5px;
+	width: 400px;
+}
+
+.img {
+	width: 50px;
+	border-radius: 30px;
+}

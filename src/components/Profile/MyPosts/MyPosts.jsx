@@ -1,20 +1,20 @@
 import React from "react";
 import s from "./MyPosts.module.css";
 import Post from "./Post/Post";
+import { Button, TextField } from "@material-ui/core";
 
 const MyPosts = (props) => {
-
-	let addPost = () => {
-		props.addPost();
+  let addPost = () => {
+    props.addPost();
   };
 
   let postsElements = props.posts.map((p) => (
-    <Post id={p.id} message={p.message} likeCount={p.likesCount} />
+    <Post key={p.id} id={p.id} message={p.message} likeCount={p.likesCount} />
   ));
 
   let onPostChange = (e) => {
-	  let postValue = e.target.value;
-	  props.onPostChange(postValue);
+    let postValue = e.target.value;
+    props.onPostChange(postValue);
   };
 
   return (
@@ -22,13 +22,18 @@ const MyPosts = (props) => {
       <h3>my posts</h3>
       <div>
         <div>
-          <textarea
+          <TextField
+            label="Введите текст"
+            id="mui-theme-provider-standard-input"
+            variant="outlined"
             onChange={onPostChange}
             value={props.postChange.postValue}
           />
         </div>
         <div>
-          <button onClick={addPost}>Добавьте пост</button>
+          <Button variant="contained" color="secondary" onClick={addPost}>
+            Добавьте пост
+          </Button>
         </div>
       </div>
       <div className={s.posts}>{postsElements}</div>
