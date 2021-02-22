@@ -1,5 +1,8 @@
+import { ProfileApi } from '../api/api';
+
 const ADD_POST = "ADD-POST";
 const ON_POST_CHANGE = "ON-POST-CHANGE";
+const SET_USER_PROFILE = "SET_USER_PROFILE";
 
 let initialState = {
   posts: [
@@ -14,7 +17,8 @@ let initialState = {
   ],
   postChange: {
     postValue: "",
-  },
+	},
+  profile: null
 };
 
 const profileReduser = (state = initialState, action) => {
@@ -42,7 +46,14 @@ const profileReduser = (state = initialState, action) => {
 			postChange: { ...state.postChange },
 		};
       stateCopy.postChange.postValue = action.value;
-      return stateCopy;
+		  return stateCopy;
+	  
+	  case SET_USER_PROFILE:
+		  stateCopy = {
+			  ...state,
+			  profile: action.profile
+		  };
+		  return stateCopy;
     
     default:
       return state;
@@ -57,5 +68,19 @@ export const onPostChangeActionCreator = (text) => ({
   type: ON_POST_CHANGE,
   value: text,
 });
+
+export const setUserProfile = (profile) => ({
+	type: SET_USER_PROFILE,
+	profile,
+});
+ 
+export const getProfile = (userId) => {
+	return (dispatch) => {
+		ProfileApi.getProfile(userId)
+      .then((response) => {
+        dispatch(setUserProfile(response.data));
+      });
+	}
+}
 
 export default profileReduser;

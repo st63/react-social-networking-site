@@ -3,6 +3,7 @@ import s from "./Dialogs.module.css";
 import DialogItem from "./DialogItem/DialogItem";
 import Message from "./Message/Message";
 import { Button, TextField } from "@material-ui/core";
+import { Redirect } from 'react-router-dom';
 
 const Dialogs = (props) => {
   let dialogsElements = props.dialogs.map((d) => (
@@ -20,7 +21,7 @@ const Dialogs = (props) => {
   let onChangeMessage = (e) => {
     let messageValue = e.target.value;
     props.onChangeMessage(messageValue);
-  };
+	};
 
   return (
     <div className={s.dialogs}>

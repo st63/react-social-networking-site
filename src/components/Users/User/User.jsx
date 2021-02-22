@@ -1,31 +1,36 @@
 import React from "react";
 import s from "./User.module.css";
 import userUndef from "./../../../images/userUndef.png";
+import { NavLink } from "react-router-dom";
 
 const User = (props) => {
-  return props.props.users.map((u) => (
+  return props.users.map((u) => (
     <div key={u.id}>
       <div className={s.all__wrap}>
         <div>
           <div>
-            <img
-              className={s.img}
-              src={u.photos.small != null ? u.photos.small : userUndef}
-              alt=""
-            />
+            <NavLink to={`/profile/${u.id}`}>
+              <img
+                className={s.img}
+                src={u.photos.small !== null ? u.photos.small : userUndef}
+                alt=""
+              />
+            </NavLink>
           </div>
           {u.followed ? (
             <button
+              disabled={props.followingInProgress.some((id) => id === u.id)}
               onClick={() => {
-                props.props.unfollow(u.id);
+					props.unfollow(u.id);
               }}
             >
               Unfollow
             </button>
           ) : (
             <button
-              onClick={() => {
-                props.props.follow(u.id);
+				disabled={props.followingInProgress.some((id) => id === u.id)}
+							  onClick={() => {
+								  props.follow(u.id);
               }}
             >
               Follow
