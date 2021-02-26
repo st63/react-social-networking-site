@@ -2,8 +2,34 @@ import React from "react";
 import s from "./Dialogs.module.css";
 import DialogItem from "./DialogItem/DialogItem";
 import Message from "./Message/Message";
-import { Button, TextField } from "@material-ui/core";
-import { Redirect } from 'react-router-dom';
+import { Redirect } from "react-router-dom";
+import { Field, reduxForm } from "redux-form";
+import { required, maxLengthCreator } from "../../utils/validators/validators";
+import { Textarea } from "../../components/Common/FormsControls/FormsControls";
+
+const maxLength10 = maxLengthCreator(50);
+
+const MessageForm = (props) => {
+  return (
+    <form onSubmit={props.handleSubmit}>
+      <div>
+        <Field
+          component={Textarea}
+          name={"message"}
+          placeholder={"Введите текст"}
+          validate={[required, maxLength10]}
+        />
+      </div>
+      <div>
+        <button>Отправить сообщение</button>
+      </div>
+    </form>
+  );
+};
+
+const MessageReduxForm = reduxForm({
+  form: "message",
+})(MessageForm);
 
 const Dialogs = (props) => {
   let dialogsElements = props.dialogs.map((d) => (
@@ -14,14 +40,9 @@ const Dialogs = (props) => {
     <Message key={m.id} id={m.id} message={m.message} />
   ));
 
-	let addMessage = () => {
-    props.addMessage();
+  const onSubmit = (value) => {
+    props.addMessage(value.message);
   };
-
-  let onChangeMessage = (e) => {
-    let messageValue = e.target.value;
-    props.onChangeMessage(messageValue);
-	};
 
   return (
     <div className={s.dialogs}>
@@ -29,20 +50,7 @@ const Dialogs = (props) => {
         <div className={s.dialog}>{dialogsElements}</div>
       </div>
       <div>
-        <div>
-          <TextField
-            label="Введите текст"
-            id="mui-theme-provider-standard-input"
-            variant="outlined"
-            onChange={onChangeMessage}
-            value={props.messageChange.messageValue}
-          />
-        </div>
-        <div>
-          <Button variant="contained" color="secondary" onClick={addMessage}>
-            Отправить сообщение
-          </Button>
-        </div>
+        <MessageReduxForm onSubmit={onSubmit} />
         <div className={s.messages}>{messagesElements}</div>
       </div>
     </div>

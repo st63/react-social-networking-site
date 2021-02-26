@@ -1,5 +1,4 @@
 const ADD_MESSAGE = "ADD-MESSAGE";
-const ON_CHANGE_MESSAGE = "ON-CHANGE-MESSAGE";
 
 let initialState = {
   dialogs: [
@@ -48,49 +47,31 @@ let initialState = {
     { id: 5, message: "Hi, how are your?" },
     { id: 6, message: "Hi, it is me" },
   ],
-  messageChange: {
-    messageValue: "",
-  },
 };
 
 const dialogsReduser = (state = initialState, action) => {
-
-	let stateCopy;
+  let stateCopy;
 
   switch (action.type) {
-    case ADD_MESSAGE: 
+    case ADD_MESSAGE:
       let newMessage = {
         id: state.messages.length + 1,
-        message: state.messageChange.messageValue,
+        message: action.value,
       };
-		  stateCopy = {
-			  ...state,
-			  messages: [...state.messages, newMessage],
-			  messageChange: { ...state.messageChange },
-		  };
-      stateCopy.messageChange.messageValue = "";
-      return stateCopy;
-    
-    case ON_CHANGE_MESSAGE: 
       stateCopy = {
-			...state,
-			messageChange: { ...state.messageChange },
-		  };
-		  stateCopy.messageChange.messageValue = action.value;
+        ...state,
+        messages: [...state.messages, newMessage],
+      };
       return stateCopy;
-    
+
     default:
       return state;
   }
 };
 
-export const addMessageActionCreator = () => ({
+export const addMessageActionCreator = (value) => ({
   type: ADD_MESSAGE,
-});
-
-export const onChangeMessageActionCreator = (text) => ({
-  type: ON_CHANGE_MESSAGE,
-  value: text,
+  value,
 });
 
 export default dialogsReduser;
